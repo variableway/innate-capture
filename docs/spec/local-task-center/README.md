@@ -2,16 +2,16 @@
 
 ## 模块列表
 
-- [intake.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/intake.md)
-- [pipeline.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/pipeline.md)
-- [assignment.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/assignment.md)
-- [execution.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/execution.md)
-- [dashboard.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/dashboard.md)
-- [storage.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/storage.md)
-- [ui-overview.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/ui-overview.md)
-- [ui-cli-tui.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/ui-cli-tui.md)
-- [ui-web.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/ui-web.md)
-- [ui-desktop.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/ui-desktop.md)
+- [MiniMax-intake.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/MiniMax-intake.md)
+- [MiniMax-pipeline.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/MiniMax-pipeline.md)
+- [MiniMax-assignment.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/MiniMax-assignment.md)
+- [MiniMax-execution.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/MiniMax-execution.md)
+- [MiniMax-dashboard.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/MiniMax-dashboard.md)
+- [MiniMax-storage.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/MiniMax-storage.md)
+- [MiniMax-ui-overview.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/MiniMax-ui-overview.md)
+- [MiniMax-ui-cli-tui.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/MiniMax-ui-cli-tui.md)
+- [MiniMax-ui-web.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/MiniMax-ui-web.md)
+- [MiniMax-ui-desktop.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/spec/local-task-center/MiniMax-ui-desktop.md)
 
 ## 模块关系
 

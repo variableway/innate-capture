@@ -66,11 +66,16 @@ UI 需要实现的模块：
 
 文档输出位置：
 
-- 严格评估文档：`docs/analysis/local-task-center-ui-evaluation.md`
-- UI 架构文档：`docs/architecture/local-task-center-ui.md`
-- UI Spec 索引：`docs/spec/local-task-center/ui-overview.md`
-- CLI/TUI Spec：`docs/spec/local-task-center/ui-cli-tui.md`
-- Web Spec：`docs/spec/local-task-center/ui-web.md`
-- Desktop Spec：`docs/spec/local-task-center/ui-desktop.md`
+核心文档：
+- 可行性分析：`docs/analysis/MiniMax-local-task-center-feasibility.md`
+- 架构设计：`docs/architecture/MiniMax-local-task-center.md`
+
+UI 文档：
+- 严格评估文档：`docs/analysis/MiniMax-local-task-center-ui-evaluation.md`
+- UI 架构文档：`docs/architecture/MiniMax-local-task-center-ui.md`
+- UI Spec 索引：`docs/spec/local-task-center/MiniMax-ui-overview.md`
+- CLI/TUI Spec：`docs/spec/local-task-center/MiniMax-ui-cli-tui.md`
+- Web Spec：`docs/spec/local-task-center/MiniMax-ui-web.md`
+- Desktop Spec：`docs/spec/local-task-center/MiniMax-ui-desktop.md`
 
 请对这些内容进行分析哪些需要实现的UI功能和模块。写入到UI相关的Spec中，最后给出一份经过严格评估的文档。
