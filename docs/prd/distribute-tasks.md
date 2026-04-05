@@ -42,3 +42,13 @@
 - **方案评估**：[distribute-task-solution-evaluation.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/analysis/distribute-task-solution-evaluation.md)
 - **架构设计**：[distribute-task-architecture.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/architecture/distribute-task-architecture.md)
 - **实施计划**：[distribute-task-roadmap.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/planning/distribute-task-roadmap.md)
+
+### GEMINI31 版本文档索引
+
+- **方案评估 (GEMINI31)**：[GEMINI31-distribute-task-solution-evaluation.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/analysis/GEMINI31-distribute-task-solution-evaluation.md)
+- **架构设计 (GEMINI31)**：[GEMINI31-distribute-task-architecture.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/architecture/GEMINI31-distribute-task-architecture.md)
+- **实施计划 (GEMINI31)**：[GEMINI31-distribute-task-roadmap.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/planning/GEMINI31-distribute-task-roadmap.md)
+
+### GPT54 版本文档索引
+
+- **完整评估与实施设计 (GPT54)**：[GPT54-distribute-tasks-full-evaluation.md](file:///Users/patrick/workspace/variableway/innate/capture/docs/analysis/GPT54-distribute-tasks-full-evaluation.md)
