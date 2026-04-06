@@ -1,0 +1,6 @@
+[submodule "linear"]
+	path = linear
+	url = https://github.com/linear/linear.git
+[submodule "multica"]
+	path = multica
+	url = https://github.com/multica-ai/multica.git
