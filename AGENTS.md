@@ -4,7 +4,35 @@
 
 **Capture** is a Go-based CLI/TUI tool for capturing ideas from Terminal and Feishu (飞书), saving them as Markdown files and syncing to Feishu Bitable (多维表格).
 
-## Architecture
+## Repository Structure
+
+```
+innate-capture/                 # Repository root
+├── projects/
+│   └── capture/               # Main Go project
+│       ├── main.go            # Entry point
+│       ├── cmd/               # Cobra CLI commands
+│       ├── internal/          # Internal packages
+│       ├── pkg/               # Public packages
+│       ├── go.mod             # Go module
+│       └── Makefile           # Build scripts
+│
+├── linear/                     # Git submodule - Linear SDK (reference)
+├── multica/                    # Git submodule - Multica reference implementation
+│
+├── tasks/                      # Task tracking and analysis
+│   ├── task/                  # Task definitions
+│   ├── features/              # Feature analysis
+│   ├── prd/spec/              # Product specifications
+│   └── issue/                 # Issue tracking
+│
+├── docs/                       # Documentation
+├── README.md                   # Main README
+├── AGENTS.md                   # This file
+└── CLAUDE.md                   # Claude Code guidance
+```
+
+## Project Architecture (projects/capture/)
 
 ```
 capture/
@@ -44,6 +72,8 @@ capture/
 ## Build & Test
 
 ```bash
+cd projects/capture
+
 go build ./...
 go test ./...
 go run . --help
@@ -66,3 +96,10 @@ FEISHU_ENCRYPT_KEY      # For webhook mode
 FEISHU_BITABLE_APP_TOKEN   # For bitable sync
 FEISHU_BITABLE_TABLE_ID    # For bitable sync
 ```
+
+## References
+
+- [Linear SDK](./linear/) - Git submodule for reference
+- [Multica](./multica/) - Git submodule for reference
+- [PRD Specs](./tasks/prd/spec/) - Product specifications
+- [Issue Tracking](./tasks/issue/) - Implementation issues

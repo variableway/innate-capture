@@ -2,9 +2,26 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Repository Structure
+
+```
+innate-capture/
+├── projects/capture/          # Main Go project (working directory for code)
+├── linear/                    # Git submodule - Linear SDK reference
+├── multica/                   # Git submodule - Multica reference
+├── tasks/                     # Task tracking and specifications
+│   ├── prd/spec/             # Product specifications
+│   └── issue/                # Implementation issues
+└── docs/                     # Documentation
+```
+
 ## Build & Development Commands
 
+All Go commands should be run from `projects/capture/`:
+
 ```bash
+cd projects/capture
+
 make build              # Build binary (./capture)
 make run                # Build and run
 make test               # Run all tests (verbose)
@@ -23,9 +40,9 @@ go test ./internal/bot/  -v -run TestMsgParser
 
 Capture is a Go CLI/TUI tool for capturing ideas from Terminal and Feishu (飞书), storing them as Markdown files with YAML frontmatter and syncing to Feishu Bitable.
 
-**Entry point**: `main.go` → `cmd.Execute()` (Cobra CLI)
+**Entry point**: `projects/capture/main.go` → `cmd.Execute()` (Cobra CLI)
 
-**Layers**:
+**Layers** (all under `projects/capture/`):
 - `cmd/` — Cobra commands (add, list, show, edit, delete, status, stage, assign, kanban, bot, bot_serve, sync, config, init). Each command wires up `service.TaskService` with `store.MarkdownStore`.
 - `internal/service/` — Business logic. `TaskService` uses functional options (`TaskOption`) for flexible mutations. Enforces status transition rules via `model.CanTransition()`.
 - `internal/store/` — `Store` interface with `MarkdownStore` implementation. Files stored at `~/.capture/tasks/YYYY/MM/TASK-NNNNN.md` with YAML frontmatter. Markdown is the source of truth.
@@ -50,3 +67,9 @@ Required for Feishu Bot: `FEISHU_APP_ID`, `FEISHU_APP_SECRET`. See `.env.example
 ## Module
 
 `github.com/variableway/innate/capture` — Go 1.26.1, pure Go (no CGo, uses `modernc.org/sqlite`).
+
+## References
+
+- [PRD Specifications](./tasks/prd/spec/) - Product requirements and specifications
+- [Issue Tracking](./tasks/issue/) - Implementation issues and roadmap
+- [Feature Analysis](./tasks/features/) - Analysis of Linear and Multica integration
