@@ -54,9 +54,70 @@
 | Daemon 管理 | Go HTTP + WebSocket | ✅ 高 |
 | 本地看板 | Bubble Tea (Go TUI) | ✅ 高 |
 
-### 建议的下一步行动
+## Task 2: Karpathy Wiki 模式整合分析
 
-1. **立即开始**: 重构 Issue 模型，参考 Linear 和 Multica 的设计
-2. **本周完成**: Stage Pipeline 的状态机实现
-3. **下周开始**: Feishu Bitable 同步模块
-4. **并行进行**: TUI Kanban 增强
+> **状态**: ✅ 已完成  
+> **报告**: [Karpathy Wiki 整合分析](./karpathy_wiki_integration_analysis.md)
+
+### 分析内容
+
+1. **Karpathy Wiki 模式核心概念**
+   - 三层架构: Schema → Wiki → Raw Sources
+   - 核心操作: Ingest / Query / Lint
+   - 关键文件: index.md / log.md
+
+2. **与 Issue 系统的整合架构**
+   - Issue ↔ Wiki 双向整合
+   - Issue Ingest 自动生成知识库
+   - Agent 执行结果归档到 Wiki
+   - Wiki 知识驱动新 Issue 创建
+
+3. **具体整合场景**
+   - 任务分析自动生成知识库
+   - Agent 执行结果自动归档
+   - 基于已有知识创建新任务
+
+4. **技术实现方案**
+   - 目录结构: `issues/` + `wiki/` + `raw/`
+   - Schema 设计: CLAUDE.md 扩展
+   - Stage Pipeline 集成点
+
+### 核心结论
+
+| 整合维度 | 可行性 | 说明 |
+|---------|--------|------|
+| 技术兼容 | ✅ 高 | 都基于 Markdown + YAML |
+| 架构互补 | ✅ 高 | Issue 负责执行, Wiki 负责知识 |
+| 实施成本 | ✅ 中 | 分 4 个 Phase, 8-10 周 |
+
+### 整合收益
+
+- **知识累积**: Issue 执行结果自动归档为可复用资产
+- **上下文保持**: 新 Issue 可基于 Wiki 已有知识
+- **AI 增强**: LLM 基于丰富上下文提供更精准建议
+- **可追溯性**: 完整时间线 log, 任何决策有据可查
+
+---
+
+## 建议的下一步行动
+
+### Phase 1: 基础框架 (立即开始)
+1. **重构 Issue 模型**，参考 Linear 和 Multica 的设计
+2. **创建 wiki/ 目录结构**
+3. **实现简单的 Issue → Entity Ingest**
+
+### Phase 2: Stage Pipeline (本周)
+1. **Stage Pipeline 状态机实现**
+2. **集成 Ingest 到 Analysis Stage**
+3. **自动生成 index.md**
+
+### Phase 3: Agent 集成 (下周)
+1. **Feishu Bitable 同步模块**
+2. **Agent 执行结果归档到 Wiki**
+3. **创建 executions/ 目录**
+
+### Phase 4: 知识驱动 (后续)
+1. **TUI Kanban 增强**
+2. **Wiki Query 接口**
+3. **基于知识生成 Sub-Tasks**
+4. **Lint 功能 (矛盾检测)**
