@@ -1,0 +1,9 @@
+# Feishu Connection Module Dependencies
+
+# HTTP client for async API calls
+httpx>=0.24.0
+
+# Testing dependencies (optional)
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-mock>=3.10.0

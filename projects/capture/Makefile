@@ -1,4 +1,4 @@
-.PHONY: build install test clean fmt lint run
+.PHONY: build install install-skills test clean fmt lint run
 
 BINARY=capture
 GO=go
@@ -8,6 +8,9 @@ build:
 
 install:
 	$(GO) install .
+
+install-skills:
+	../../scripts/install-skills.sh
 
 test:
 	$(GO) test ./... -v
