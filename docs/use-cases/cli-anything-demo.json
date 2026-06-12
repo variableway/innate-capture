@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "name": "CLI-Anything \u6559\u7a0b",
+  "type": "impress",
+  "settings": {
+    "page_width": "33.867cm",
+    "page_height": "19.05cm",
+    "margin_top": "0cm",
+    "margin_bottom": "0cm",
+    "margin_left": "0cm",
+    "margin_right": "0cm"
+  },
+  "styles": {},
+  "metadata": {
+    "title": "",
+    "author": "",
+    "description": "",
+    "subject": "",
+    "created": "2026-05-29T16:19:05.212082",
+    "modified": "2026-05-29T16:19:05.219540",
+    "software": "libreoffice-cli 1.0"
+  },
+  "slides": [
+    {
+      "title": "CLI-Anything \u4f7f\u7528\u6559\u7a0b",
+      "content": "\u7528 Claude Code \u81ea\u52a8\u751f\u6210\u6f14\u793a\u6587\u7a3f",
+      "elements": []
+    },
+    {
+      "title": "\u4ec0\u4e48\u662f CLI-Anything\uff1f",
+      "content": "\u2022 \u8ba9 AI Agent \u901a\u8fc7\u547d\u4ee4\u884c\u64cd\u63a7\u4efb\u610f\u8f6f\u4ef6\u7684\u6846\u67b6\n\u2022 \u5b98\u65b9\u63d0\u4f9b LibreOffice\u3001Blender \u7b49 Harness\n\u2022 \u652f\u6301 Claude Code / Codex / \u4efb\u610f Agent \u8c03\u7528",
+      "elements": []
+    },
+    {
+      "title": "\u5b89\u88c5\u6b65\u9aa4",
+      "content": "1. pip install cli-anything-libreoffice\n2. brew install libreoffice\n3. cli-anything-libreoffice --help",
+      "elements": []
+    },
+    {
+      "title": "Claude Code \u96c6\u6210",
+      "content": "\u2022 \u5b89\u88c5 Skill \u540e\uff0c\u5bf9\u8bdd\u4e2d\u76f4\u63a5\u8bf4\u81ea\u7136\u8bed\u8a00\u89e6\u53d1\n\u2022 Agent \u81ea\u52a8\u7f16\u6392\uff1a\u521b\u5efa\u9879\u76ee \u2192 \u6dfb\u52a0\u5e7b\u706f\u7247 \u2192 \u8bbe\u7f6e\u5185\u5bb9 \u2192 \u5bfc\u51fa",
+      "elements": []
+    },
+    {
+      "title": "\u57fa\u672c\u5de5\u4f5c\u6d41",
+      "content": "\u6b65\u9aa41: document new --type impress\n\u6b65\u9aa42: impress add-slide -t \u6807\u9898 -c \u5185\u5bb9\n\u6b65\u9aa43: impress list-slides\n\u6b65\u9aa44: export render output.pdf --preset pdf",
+      "elements": []
+    },
+    {
+      "title": "\u5bfc\u51fa\u683c\u5f0f",
+      "content": "\u2022 PDF: export render output.pdf --preset pdf\n\u2022 PPTX: export render output.pptx --preset pptx\n\u2022 \u9700\u8981 LibreOffice \u5b89\u88c5\u5728\u7cfb\u7edf\u4e2d",
+      "elements": []
+    },
+    {
+      "title": "\u53c2\u8003\u8d44\u6e90",
+      "content": "\u2022 github.com/HKUDS/CLI-Anything\n\u2022 npx skills add HKUDS/CLI-Anything",
+      "elements": []
+    }
+  ]
+}
