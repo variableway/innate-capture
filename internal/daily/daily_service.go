@@ -46,11 +46,18 @@ func (s dailyService) IsValidSection(name string) bool {
 }
 
 func (s dailyService) Read(cfg *config.Config) (string, error) {
+	return s.ReadForDate(cfg, "")
+}
+
+func (s dailyService) ReadForDate(cfg *config.Config, date string) (string, error) {
 	if err := s.ws.Validate(cfg); err != nil {
 		return "", err
 	}
 
-	path := s.ws.DailyPath(cfg)
+	path, err := s.DailyFilePath(cfg, date)
+	if err != nil {
+		return "", err
+	}
 	data, err := s.fs.ReadFile(path)
 	if err == nil {
 		return string(data), nil
@@ -59,7 +66,7 @@ func (s dailyService) Read(cfg *config.Config) (string, error) {
 		return "", fmt.Errorf("read today: %w", err)
 	}
 
-	if err := s.BootstrapFromTemplate(cfg); err != nil {
+	if err := s.BootstrapFromTemplateForDate(cfg, date); err != nil {
 		return "", err
 	}
 
@@ -71,6 +78,10 @@ func (s dailyService) Read(cfg *config.Config) (string, error) {
 }
 
 func (s dailyService) BootstrapFromTemplate(cfg *config.Config) error {
+	return s.BootstrapFromTemplateForDate(cfg, "")
+}
+
+func (s dailyService) BootstrapFromTemplateForDate(cfg *config.Config, date string) error {
 	if err := s.ws.Validate(cfg); err != nil {
 		return err
 	}
@@ -81,10 +92,16 @@ func (s dailyService) BootstrapFromTemplate(cfg *config.Config) error {
 		return fmt.Errorf("read daily template: %w", err)
 	}
 
-	today := time.Now().Format("2006-01-02")
+	today, err := resolveDate(date)
+	if err != nil {
+		return err
+	}
 	content := strings.ReplaceAll(string(tpl), "__DATE__", today)
 
-	path := s.ws.DailyPath(cfg)
+	path, err := s.DailyFilePath(cfg, today)
+	if err != nil {
+		return err
+	}
 	if err := s.fs.MkdirAll(filepath.Dir(path), 0o755); err != nil {
 		return fmt.Errorf("create daily dir: %w", err)
 	}
@@ -95,11 +112,15 @@ func (s dailyService) BootstrapFromTemplate(cfg *config.Config) error {
 }
 
 func (s dailyService) PrintSection(cfg *config.Config, section string) (string, error) {
+	return s.PrintSectionForDate(cfg, section, "")
+}
+
+func (s dailyService) PrintSectionForDate(cfg *config.Config, section, date string) (string, error) {
 	if !s.IsValidSection(section) {
 		return "", fmt.Errorf("invalid section %q; valid: %s", section, strings.Join(s.ValidSections(), ", "))
 	}
 
-	content, err := s.Read(cfg)
+	content, err := s.ReadForDate(cfg, date)
 	if err != nil {
 		return "", err
 	}
@@ -129,4 +150,23 @@ func (s dailyService) PrintSection(cfg *config.Config, section string) (string, 
 		return "", fmt.Errorf("section %q not found in today.md", section)
 	}
 	return strings.TrimRight(strings.Join(out, "\n"), "\n"), nil
+}
+
+func (s dailyService) DailyFilePath(cfg *config.Config, date string) (string, error) {
+	d, err := resolveDate(date)
+	if err != nil {
+		return "", err
+	}
+	dailyDir := filepath.Dir(s.ws.DailyPath(cfg))
+	return filepath.Join(dailyDir, d+".md"), nil
+}
+
+func resolveDate(date string) (string, error) {
+	if strings.TrimSpace(date) == "" {
+		return time.Now().Format("2006-01-02"), nil
+	}
+	if _, err := time.Parse("2006-01-02", date); err != nil {
+		return "", fmt.Errorf("invalid date %q, expected YYYY-MM-DD", date)
+	}
+	return date, nil
 }

@@ -48,7 +48,7 @@ func setupWorkspace(t *testing.T) *config.Config {
 
 func TestRead_ExistingFile(t *testing.T) {
 	cfg := setupWorkspace(t)
-	path := filepath.Join(cfg.Workspace.Root, "daily", "today.md")
+	path := filepath.Join(cfg.Workspace.Root, "daily", time.Now().Format("2006-01-02")+".md")
 	os.WriteFile(path, []byte("# Daily: 2026-07-06\n\nbody\n"), 0644)
 
 	got, err := Read(cfg)
@@ -62,7 +62,7 @@ func TestRead_ExistingFile(t *testing.T) {
 
 func TestRead_BootstrapWhenMissing(t *testing.T) {
 	cfg := setupWorkspace(t)
-	today := filepath.Join(cfg.Workspace.Root, "daily", "today.md")
+	today := filepath.Join(cfg.Workspace.Root, "daily", time.Now().Format("2006-01-02")+".md")
 	if _, err := os.Stat(today); !os.IsNotExist(err) {
 		t.Fatalf("today.md should not exist yet")
 	}
@@ -90,7 +90,7 @@ func TestBootstrapFromTemplate(t *testing.T) {
 		t.Fatalf("BootstrapFromTemplate: %v", err)
 	}
 
-	data, err := os.ReadFile(filepath.Join(cfg.Workspace.Root, "daily", "today.md"))
+	data, err := os.ReadFile(filepath.Join(cfg.Workspace.Root, "daily", time.Now().Format("2006-01-02")+".md"))
 	if err != nil {
 		t.Fatalf("read today: %v", err)
 	}
@@ -116,9 +116,9 @@ func TestBootstrapFromTemplate_NoTemplate(t *testing.T) {
 
 func TestPrintSection(t *testing.T) {
 	cfg := setupWorkspace(t)
-	// Pre-seed today.md so PrintSection reads exactly what we wrote.
+	// Pre-seed current day file so PrintSection reads exactly what we wrote.
 	today := []byte(strings.ReplaceAll(testTemplate, "__DATE__", "2026-07-06"))
-	os.WriteFile(filepath.Join(cfg.Workspace.Root, "daily", "today.md"), today, 0644)
+	os.WriteFile(filepath.Join(cfg.Workspace.Root, "daily", time.Now().Format("2006-01-02")+".md"), today, 0644)
 
 	tests := []struct {
 		section string
@@ -170,11 +170,38 @@ func TestPrintSection_Invalid(t *testing.T) {
 
 func TestPrintSection_NotFound(t *testing.T) {
 	cfg := setupWorkspace(t)
-	// today.md whose only H2 does not match any known section.
-	os.WriteFile(filepath.Join(cfg.Workspace.Root, "daily", "today.md"), []byte("# Daily: x\n\n## 其他\n\nbody\n"), 0644)
+	// day file whose only H2 does not match any known section.
+	os.WriteFile(filepath.Join(cfg.Workspace.Root, "daily", time.Now().Format("2006-01-02")+".md"), []byte("# Daily: x\n\n## 其他\n\nbody\n"), 0644)
 
 	if _, err := PrintSection(cfg, "ideas"); err == nil {
 		t.Fatal("expected error when section heading absent")
+	}
+}
+
+func TestReadForDate_UsesDateFile(t *testing.T) {
+	cfg := setupWorkspace(t)
+	targetDate := "2026-07-08"
+	path := filepath.Join(cfg.Workspace.Root, "daily", targetDate+".md")
+	os.WriteFile(path, []byte("# Daily: 2026-07-08\n\nbody\n"), 0644)
+
+	got, err := ReadForDate(cfg, targetDate)
+	if err != nil {
+		t.Fatalf("ReadForDate: %v", err)
+	}
+	if !strings.Contains(got, "# Daily: 2026-07-08") {
+		t.Fatalf("unexpected content: %s", got)
+	}
+}
+
+func TestBootstrapForDate_CreatesDateFile(t *testing.T) {
+	cfg := setupWorkspace(t)
+	targetDate := "2026-07-09"
+	if err := BootstrapFromTemplateForDate(cfg, targetDate); err != nil {
+		t.Fatalf("BootstrapFromTemplateForDate: %v", err)
+	}
+	path := filepath.Join(cfg.Workspace.Root, "daily", targetDate+".md")
+	if _, err := os.Stat(path); err != nil {
+		t.Fatalf("expected date file to be created: %v", err)
 	}
 }
 

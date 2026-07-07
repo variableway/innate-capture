@@ -17,6 +17,7 @@ var (
 	dailyOpen    bool
 	dailySection string
 	dailyReset   bool
+	dailyDate    string
 )
 
 var dailyCmd = &cobra.Command{
@@ -30,7 +31,9 @@ daily/_template/day.md with __DATE__ replaced by today's date.
 Use --section to print only one focus section, or --open to launch
 defaults.editor on today.md.
 
-Use --reset to regenerate today.md from daily/_template/day.md
+By default it reads daily/YYYY-MM-DD.md for today.
+
+Use --reset to regenerate target day file from daily/_template/day.md
 before printing or opening. This is automation-friendly and
 non-interactive.`,
 	SilenceUsage: true,
@@ -41,17 +44,17 @@ non-interactive.`,
 		}
 
 		if dailyReset {
-			if err := daily.BootstrapFromTemplate(cfg); err != nil {
+			if err := daily.BootstrapFromTemplateForDate(cfg, dailyDate); err != nil {
 				return err
 			}
 		}
 
 		if dailyOpen {
-			return openDaily(cfg)
+			return openDaily(cfg, dailyDate)
 		}
 
 		if dailySection != "" {
-			section, err := daily.PrintSection(cfg, dailySection)
+			section, err := daily.PrintSectionForDate(cfg, dailySection, dailyDate)
 			if err != nil {
 				return err
 			}
@@ -59,7 +62,7 @@ non-interactive.`,
 			return nil
 		}
 
-		content, err := daily.Read(cfg)
+		content, err := daily.ReadForDate(cfg, dailyDate)
 		if err != nil {
 			return err
 		}
@@ -73,14 +76,17 @@ non-interactive.`,
 
 // openDaily ensures today.md exists (bootstrapping if needed) and opens
 // it in the configured editor. Checkbox state is left to the user.
-func openDaily(cfg *config.Config) error {
+func openDaily(cfg *config.Config, date string) error {
 	if err := workspace.Validate(cfg); err != nil {
 		return err
 	}
 
-	path := workspace.DailyPath(cfg)
+	path, err := daily.DailyFilePath(cfg, date)
+	if err != nil {
+		return err
+	}
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		if err := daily.BootstrapFromTemplate(cfg); err != nil {
+		if err := daily.BootstrapFromTemplateForDate(cfg, date); err != nil {
 			return err
 		}
 	}
@@ -103,6 +109,7 @@ func openDaily(cfg *config.Config) error {
 func init() {
 	dailyCmd.Flags().BoolVar(&dailyOpen, "open", false, "Open today.md in defaults.editor")
 	dailyCmd.Flags().StringVar(&dailySection, "section", "", "Print only a section (input|output|ideas)")
-	dailyCmd.Flags().BoolVar(&dailyReset, "reset", false, "Regenerate today.md from template before reading")
+	dailyCmd.Flags().BoolVar(&dailyReset, "reset", false, "Regenerate target day file from template before reading")
+	dailyCmd.Flags().StringVar(&dailyDate, "date", "", "Target date in YYYY-MM-DD (default: today)")
 	rootCmd.AddCommand(dailyCmd)
 }

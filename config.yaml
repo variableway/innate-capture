@@ -9,6 +9,7 @@ bitable:
 bot:
     mode: websocket
     port: 8080
+data_dir: D:\innate-works\innate-works
 defaults:
     editor: code
     priority: medium
