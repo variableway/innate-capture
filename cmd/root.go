@@ -81,6 +81,10 @@ func getDataDir() string {
 }
 
 func resolveConfiguredDataDir() string {
+	// Canonical key: workspace.root (single source of truth).
+	if d := viper.GetString("workspace.root"); d != "" {
+		return d
+	}
 	// Backward compatibility: legacy flat key first.
 	if d := viper.GetString("data_dir"); d != "" {
 		return d

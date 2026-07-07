@@ -22,7 +22,7 @@ var ideaCmd = &cobra.Command{
 
 var ideaAddCmd = &cobra.Command{
 	Use:   "add <title>",
-	Short: "Add an idea to innate-works inbox",
+	Short: "Add an idea to inbox",
 	Args:  cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		title := strings.Join(args, " ")
@@ -43,7 +43,7 @@ var ideaAddCmd = &cobra.Command{
 
 var ideaListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "List ideas in innate-works inbox",
+	Short: "List ideas in inbox",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		cfg, err := config.Load(getDataDir())
 		if err != nil {

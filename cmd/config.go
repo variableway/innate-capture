@@ -19,7 +19,8 @@ var configGetCmd = &cobra.Command{
 	Short: "Get a config value",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		val, err := config.Get(getDataDir(), args[0])
+		key := normalizeConfigKey(args[0])
+		val, err := config.Get(getDataDir(), key)
 		if err != nil {
 			return err
 		}
@@ -39,18 +40,19 @@ Windows (especially Nushell) notes:
 
 Examples:
   capture config set workspace.root .
-  capture config set app.data_dir D:\innate-works\innate-works\innate-capture
-  capture config set app.data_dir 'D:\innate-works\innate-works\innate-capture'
-  capture config set app.data_dir D:/innate-works/innate-works/innate-capture`,
+  capture config set workspace.root D:\innate-works\innate-works\innate-capture
+  capture config set workspace.root 'D:\innate-works\innate-works\innate-capture'
+  capture config set workspace.root D:/innate-works/innate-works/innate-capture`,
 	Example: `  # If your shell reports "unrecognized escape after '\'", try:
-  capture config set app.data_dir 'D:\innate-works\innate-works\innate-capture'
-  capture config set app.data_dir D:/innate-works/innate-works/innate-capture`,
+  capture config set workspace.root 'D:\innate-works\innate-works\innate-capture'
+  capture config set workspace.root D:/innate-works/innate-works/innate-capture`,
 	Args: cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if err := config.Set(getDataDir(), args[0], args[1]); err != nil {
+		key := normalizeConfigKey(args[0])
+		if err := config.Set(getDataDir(), key, args[1]); err != nil {
 			return err
 		}
-		fmt.Printf("Set %s = %s\n", args[0], args[1])
+		fmt.Printf("Set %s = %s\n", key, args[1])
 		return nil
 	},
 }
@@ -78,4 +80,13 @@ func init() {
 	configCmd.AddCommand(configSetCmd)
 	configCmd.AddCommand(configShowCmd)
 	rootCmd.AddCommand(configCmd)
+}
+
+func normalizeConfigKey(key string) string {
+	switch key {
+	case "data_dir", "app.data_dir":
+		return "workspace.root"
+	default:
+		return key
+	}
 }
