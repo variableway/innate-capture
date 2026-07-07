@@ -27,6 +27,9 @@
   - `daily/YYYY-MM-DD.md`
   - 支持 `--date` 与 `--reset`
 - `today.md` 不再作为唯一数据源（可存在但不作为核心读取目标）
+- workspace 目录语义已统一：
+  - 规范键：`workspace.root`
+  - `data_dir` / `app.data_dir` 作为兼容别名，会映射到 `workspace.root`
 
 ## 交付
 
