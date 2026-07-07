@@ -41,3 +41,4 @@ docs/reference/
 # Build output
 /dist/
 go.sum
+.task/

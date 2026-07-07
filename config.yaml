@@ -1,0 +1,24 @@
+app:
+    data_dir: .
+    name: Capture
+    version: 0.1.0
+bitable:
+    app_token: ""
+    enabled: false
+    table_id: ""
+bot:
+    mode: websocket
+    port: 8080
+defaults:
+    editor: code
+    priority: medium
+    tags: []
+feishu:
+    app_id: ""
+    app_secret: ""
+    encrypt_key: ""
+    verification_token: ""
+workspace:
+    daily_today: daily/today.md
+    ideas_inbox: ideas/inbox
+    root: .

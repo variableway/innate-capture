@@ -1,13 +1,12 @@
 version: "3"
 
 vars:
-  CAPTURE_DIR: ./projects/capture
   BINARY: capture
+  LOCAL_BIN: '{{.HOME}}/.local/bin'
 
 tasks:
   build:
     desc: Build capture binary
-    dir: "{{.CAPTURE_DIR}}"
     cmds:
       - go build -o {{.BINARY}} .
     sources:
@@ -18,52 +17,46 @@ tasks:
       - "{{.BINARY}}"
 
   install:
-    desc: Install capture to GOPATH
-    dir: "{{.CAPTURE_DIR}}"
+    desc: Install capture binary to ~/.local/bin
+    env:
+      GOBIN: '{{.LOCAL_BIN}}'
     cmds:
       - go install .
 
   test:
     desc: Run all tests
-    dir: "{{.CAPTURE_DIR}}"
     cmds:
       - go test ./... -v
 
   test-coverage:
     desc: Run tests with coverage report
-    dir: "{{.CAPTURE_DIR}}"
     cmds:
       - go test ./... -coverprofile=coverage.out
       - go tool cover -html=coverage.out -o coverage.html
 
   clean:
     desc: Remove build artifacts
-    dir: "{{.CAPTURE_DIR}}"
     cmds:
       - rm -f {{.BINARY}} coverage.out coverage.html
 
   fmt:
     desc: Format Go source files
-    dir: "{{.CAPTURE_DIR}}"
     cmds:
       - gofmt -w .
 
   lint:
     desc: Run golangci-lint
-    dir: "{{.CAPTURE_DIR}}"
     cmds:
       - golangci-lint run
 
   run:
     desc: Build and run capture kanban
     deps: [build]
-    dir: "{{.CAPTURE_DIR}}"
     cmds:
       - ./{{.BINARY}} kanban
 
   run-idea:
     desc: Build and run capture idea list
     deps: [build]
-    dir: "{{.CAPTURE_DIR}}"
     cmds:
       - ./{{.BINARY}} idea list

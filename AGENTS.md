@@ -25,6 +25,6 @@
 
 ## 代码根
 
-Go 项目：`projects/capture/`（`go build` 在此目录）
+Go 项目：项目根目录（`go build .` 在根目录执行）
 
 用户 CLI 手册：[`docs/usage/workspace.md`](docs/usage/workspace.md)

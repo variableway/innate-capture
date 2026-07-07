@@ -29,7 +29,7 @@ capture CLI/TUI
 | idea | `internal/idea/` | Slug、模板、Write、List |
 | daily | `internal/daily/` | Show、Open、Bootstrap |
 | cmd | `cmd/idea.go`, `cmd/daily.go` | 子命令 |
-| config | `internal/model/config.go` | `WorkspaceConfig` |
+| config | `internal/config/model.go` | `WorkspaceConfig` |
 | 保留 | `internal/feishu/`, `bot/`, `bitable/` | 本阶段不动 |
 
 ## 外部依赖
