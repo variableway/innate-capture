@@ -1,11 +1,12 @@
 package model
 
 type Config struct {
-	App      AppConfig      `yaml:"app"`
-	Defaults DefaultsConfig `yaml:"defaults"`
-	Feishu   FeishuConfig   `yaml:"feishu"`
-	Bitable  BitableConfig  `yaml:"bitable"`
-	Bot      BotConfig      `yaml:"bot"`
+	App       AppConfig       `yaml:"app"`
+	Defaults  DefaultsConfig  `yaml:"defaults"`
+	Feishu    FeishuConfig    `yaml:"feishu"`
+	Bitable   BitableConfig   `yaml:"bitable"`
+	Bot       BotConfig       `yaml:"bot"`
+	Workspace WorkspaceConfig `yaml:"workspace"`
 }
 
 type AppConfig struct {
@@ -38,6 +39,12 @@ type BotConfig struct {
 	Port int    `yaml:"port"`
 }
 
+type WorkspaceConfig struct {
+	Root       string `yaml:"root"`
+	IdeasInbox string `yaml:"ideas_inbox"`
+	DailyToday string `yaml:"daily_today"`
+}
+
 func DefaultConfig() *Config {
 	return &Config{
 		App: AppConfig{
@@ -56,6 +63,10 @@ func DefaultConfig() *Config {
 		Bot: BotConfig{
 			Mode: "websocket",
 			Port: 8080,
+		},
+		Workspace: WorkspaceConfig{
+			IdeasInbox: "ideas/inbox",
+			DailyToday: "daily/today.md",
 		},
 	}
 }

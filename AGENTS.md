@@ -1,105 +1,30 @@
-# AGENTS.md - AI Agent Context
+# AGENTS.md
 
-## Project Overview
+> **项目事实来源：** [`docs/project/index.md`](docs/project/index.md) — spec、issues、多 Agent 日志均在该目录。
 
-**Capture** is a Go-based CLI/TUI tool for capturing ideas from Terminal and Feishu (飞书), saving them as Markdown files and syncing to Feishu Bitable (多维表格).
+## 入口
 
-## Repository Structure
+1. 读 [`docs/project/index.md`](docs/project/index.md)
+2. 读当前 [`docs/project/issues/<id>.md`](docs/project/issues/)
+3. 读 [`docs/project/tasks/issues/<id>.md`](docs/project/tasks/issues/) **最后一条**
 
-```
-innate-capture/                 # Repository root
-├── projects/
-│   └── capture/               # Main Go project
-│       ├── main.go            # Entry point
-│       ├── cmd/               # Cobra CLI commands
-│       ├── internal/          # Internal packages
-│       ├── pkg/               # Public packages
-│       ├── go.mod             # Go module
-│       └── Makefile           # Build scripts
-│
-├── linear/                     # Git submodule - Linear SDK (reference)
-├── multica/                    # Git submodule - Multica reference implementation
-│
-├── tasks/                      # Task tracking and analysis
-│   ├── task/                  # Task definitions
-│   ├── features/              # Feature analysis
-│   ├── prd/spec/              # Product specifications
-│   └── issue/                 # Issue tracking
-│
-├── docs/                       # Documentation
-├── README.md                   # Main README
-├── AGENTS.md                   # This file
-└── CLAUDE.md                   # Claude Code guidance
-```
+## 事实来源
 
-## Project Architecture (projects/capture/)
+- 范围与验收：[`docs/project/spec/README.md`](docs/project/spec/README.md)
+- 合约：[`docs/project/spec/contracts/workspace-io-v1.md`](docs/project/spec/contracts/workspace-io-v1.md)
 
-```
-capture/
-├── main.go              # Entry point
-├── cmd/                 # Cobra CLI commands
-├── internal/
-│   ├── model/           # Task, Config data models
-│   ├── store/           # Markdown + SQLite + dual-write storage
-│   ├── service/         # TaskService, BotService business logic
-│   ├── bot/             # Feishu Bot webhook + websocket handlers
-│   ├── bitable/         # Feishu Bitable API client + sync
-│   ├── feishu/          # Shared Feishu SDK wrapper
-│   ├── tui/             # bubbletea TUI kanban
-│   └── config/          # Viper config management
-├── pkg/
-│   ├── idgen/           # TASK-XXXXX ID generator
-│   └── frontmatter/     # YAML frontmatter parser
-└── docs/                # Documentation
-```
+## 交付
 
-## Key Design Decisions
+- 分支 `feature/<issue>-<agent>`；合并后追加 task log
 
-- **Go language** with Cobra CLI + bubbletea TUI
-- **Dual-write storage**: Markdown files (source of truth) + SQLite (fast querying)
-- **YAML frontmatter** in Markdown files for structured metadata
-- **Feishu SDK**: `github.com/larksuite/oapi-sdk-go/v3`
-- **Bot modes**: Both Webhook (HTTP) and WebSocket (long connection)
-- **Pure Go SQLite**: `modernc.org/sqlite` (no CGo required)
+## 禁止
 
-## Task Model
+- 不要创建 `.agents/` 或第二套 spec
+- 不要未经 issue 扩大范围
+- E2E 前不要执行 `cap-docs-purge`
 
-- **Status flow**: todo → in_progress → done, todo → cancelled → archived
-- **Priority**: high, medium, low
-- **Source**: cli, tui, feishu_bot
-- **Storage**: `~/.capture/tasks/YYYY/MM/TASK-NNNNN.md`
+## 代码根
 
-## Build & Test
+Go 项目：`projects/capture/`（`go build` 在此目录）
 
-```bash
-cd projects/capture
-
-go build ./...
-go test ./...
-go run . --help
-```
-
-## Feishu Bot Commands
-
-- `记录 <内容>` - Create new task
-- `列出` - List all tasks
-- `删除 <TASK-ID>` - Delete task
-- `帮助` - Show help
-
-## Environment Variables
-
-```bash
-FEISHU_APP_ID           # Required for bot
-FEISHU_APP_SECRET       # Required for bot
-FEISHU_VERIFICATION_TOKEN  # For webhook mode
-FEISHU_ENCRYPT_KEY      # For webhook mode
-FEISHU_BITABLE_APP_TOKEN   # For bitable sync
-FEISHU_BITABLE_TABLE_ID    # For bitable sync
-```
-
-## References
-
-- [Linear SDK](./linear/) - Git submodule for reference
-- [Multica](./multica/) - Git submodule for reference
-- [PRD Specs](./tasks/prd/spec/) - Product specifications
-- [Issue Tracking](./tasks/issue/) - Implementation issues
+用户 CLI 手册：[`docs/usage/workspace.md`](docs/usage/workspace.md)

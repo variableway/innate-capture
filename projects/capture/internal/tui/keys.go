@@ -9,6 +9,7 @@ type keyMap struct {
 	Right    key.Binding
 	Enter    key.Binding
 	NewTask  key.Binding
+	NewIdea  key.Binding
 	Delete   key.Binding
 	Help     key.Binding
 	Quit     key.Binding
@@ -40,6 +41,10 @@ var keys = keyMap{
 		key.WithKeys("a"),
 		key.WithHelp("a", "new task"),
 	),
+	NewIdea: key.NewBinding(
+		key.WithKeys("i"),
+		key.WithHelp("i", "new idea"),
+	),
 	Delete: key.NewBinding(
 		key.WithKeys("d"),
 		key.WithHelp("d", "delete"),
@@ -67,7 +72,7 @@ func (k keyMap) ShortHelp() []key.Binding {
 func (k keyMap) FullHelp() [][]key.Binding {
 	return [][]key.Binding{
 		{k.Up, k.Down, k.Left, k.Right},
-		{k.Enter, k.NewTask, k.Delete},
+		{k.Enter, k.NewTask, k.NewIdea, k.Delete},
 		{k.Help, k.Quit},
 	}
 }
