@@ -61,6 +61,7 @@ func Save(dataDir string, cfg *model.Config) error {
 	v.Set("feishu", cfg.Feishu)
 	v.Set("bitable", cfg.Bitable)
 	v.Set("bot", cfg.Bot)
+	v.Set("workspace", cfg.Workspace)
 
 	return v.WriteConfigAs(configPath)
 }

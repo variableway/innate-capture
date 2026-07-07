@@ -19,6 +19,7 @@ type viewState int
 const (
 	viewKanban viewState = iota
 	viewDetail
+	viewIdea
 )
 
 type column struct {
@@ -30,23 +31,26 @@ type column struct {
 // App is the root bubbletea Model for the TUI application.
 type App struct {
 	taskSvc *service.TaskService
+	cfg     *model.Config
 	columns []column
 	cursor  struct {
 		col int
 		row int
 	}
-	state    viewState
-	help     help.Model
-	keys     keyMap
-	selected *model.Task
-	err      error
-	width    int
-	height   int
+	state     viewState
+	help      help.Model
+	keys      keyMap
+	selected  *model.Task
+	ideaForm  *ideaForm
+	err       error
+	width     int
+	height    int
 }
 
-func NewApp(taskSvc *service.TaskService) *App {
+func NewApp(taskSvc *service.TaskService, cfg *model.Config) *App {
 	return &App{
 		taskSvc: taskSvc,
+		cfg:     cfg,
 		columns: []column{
 			{title: "TODO", width: 30},
 			{title: "IN PROGRESS", width: 30},
@@ -85,6 +89,8 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return a.updateKanban(msg)
 	case viewDetail:
 		return a.updateDetail(msg)
+	case viewIdea:
+		return a.updateIdea(msg)
 	}
 
 	return a, nil
@@ -124,6 +130,10 @@ func (a *App) updateKanban(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case key.Matches(msg, a.keys.NewTask):
 			// TODO: open input dialog for new task
 			return a, nil
+		case key.Matches(msg, a.keys.NewIdea):
+			a.ideaForm = newIdeaForm(a.cfg)
+			a.state = viewIdea
+			return a, a.ideaForm.Init()
 		case key.Matches(msg, a.keys.Help):
 			a.help.ShowAll = !a.help.ShowAll
 		}
@@ -143,6 +153,31 @@ func (a *App) updateDetail(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return a, nil
 }
 
+func (a *App) updateIdea(msg tea.Msg) (tea.Model, tea.Cmd) {
+	if a.ideaForm == nil {
+		a.state = viewKanban
+		return a, nil
+	}
+
+	m, cmd := a.ideaForm.Update(msg)
+	if newForm, ok := m.(*ideaForm); ok {
+		a.ideaForm = newForm
+	}
+
+	// Check if form wants to quit (Esc or after submit)
+	if keyMsg, ok := msg.(tea.KeyMsg); ok {
+		if a.ideaForm.submitted || a.ideaForm.err != nil {
+			if keyMsg.String() == "enter" || keyMsg.String() == "esc" {
+				a.state = viewKanban
+				a.ideaForm = nil
+				return a, nil
+			}
+		}
+	}
+
+	return a, cmd
+}
+
 func (a *App) View() string {
 	if a.width == 0 {
 		return "Loading..."
@@ -153,6 +188,8 @@ func (a *App) View() string {
 		return a.viewKanban()
 	case viewDetail:
 		return a.viewDetail()
+	case viewIdea:
+		return a.viewIdea()
 	}
 	return ""
 }
@@ -261,6 +298,13 @@ func (a *App) viewDetail() string {
 
 func (a *App) helpView() string {
 	return helpStyle.Render(a.help.View(a.keys))
+}
+
+func (a *App) viewIdea() string {
+	if a.ideaForm == nil {
+		return ""
+	}
+	return a.ideaForm.View()
 }
 
 func (a *App) loadTasks() tea.Cmd {

@@ -54,4 +54,25 @@ var (
 				Bold(true).
 				Foreground(lipgloss.Color("#7D56F4")).
 				Margin(0, 0, 1, 0)
+
+	ideaDialogTitleStyle = lipgloss.NewStyle().
+				Bold(true).
+				Foreground(lipgloss.Color("#FAFAFA")).
+				Background(lipgloss.Color("#7D56F4")).
+				Padding(0, 2)
+
+	ideaLabelStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#7D56F4")).
+			Bold(true)
+
+	ideaHintStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#888888"))
+
+	ideaSuccessStyle = lipgloss.NewStyle().
+				Foreground(lipgloss.Color("#6BCB77")).
+				Bold(true)
+
+	ideaErrorStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#FF6B6B")).
+			Bold(true)
 )

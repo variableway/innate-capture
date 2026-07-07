@@ -3,6 +3,7 @@ package cmd
 import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"
+	"github.com/variableway/innate/capture/internal/config"
 	"github.com/variableway/innate/capture/internal/service"
 	"github.com/variableway/innate/capture/internal/store"
 	"github.com/variableway/innate/capture/internal/tui"
@@ -14,6 +15,11 @@ var kanbanCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		dir := getDataDir()
 
+		cfg, err := config.Load(dir)
+		if err != nil {
+			return err
+		}
+
 		dualStore, err := store.NewDualStore(dir)
 		if err != nil {
 			return err
@@ -21,7 +27,7 @@ var kanbanCmd = &cobra.Command{
 		defer dualStore.Close()
 
 		taskSvc := service.NewTaskService(dualStore, dir)
-		app := tui.NewApp(taskSvc)
+		app := tui.NewApp(taskSvc, cfg)
 
 		p := tea.NewProgram(app, tea.WithAltScreen())
 		_, err = p.Run()
